@@ -1,18 +1,28 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PhysicsEnablerController : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField] KeyCode key;
+
+    private void OnEnable()
     {
-        
+        ButtonPressEvent.buttonPress += PhysicsEnable;
+    }
+    private void OnDisable()
+    {
+        ButtonPressEvent.buttonPress -= PhysicsEnable;
     }
 
-    // Update is called once per frame
-    void Update()
+    void PhysicsEnable(KeyCode pressed)
     {
-        
+        if (pressed == key)
+        {
+            Debug.Log("event received");
+            Rigidbody rigid = this.gameObject.GetComponent<Rigidbody>();
+            rigid.isKinematic = !rigid.isKinematic;
+        }
     }
 }
